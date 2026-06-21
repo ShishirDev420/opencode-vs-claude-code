@@ -4,692 +4,613 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OpenCode vs Claude Code — The Ultimate Comparison</title>
-  <meta name="description" content="Deep-dive comparison of OpenCode and Claude Code: features, pricing, performance, and real community sentiment from Matthew Berman and 7.5M+ developers.">
+  <meta name="description" content="Data-driven comparison of OpenCode and Claude Code: pricing, performance, features, and community sentiment from Matthew Berman and 7.5M+ developers.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236363f1'/><text x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='monospace'>O</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.16/dist/lenis.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursor-follower"></div>
+
+  <nav class="navbar" role="navigation">
     <div class="nav-inner">
       <a href="#" class="nav-logo">
-        <svg width="28" height="28" viewBox="0 0 234 42" fill="none">
-          <path d="M18 30H6V18H18V30Z" fill="#6363f1"/>
-          <path d="M18 12H6V30H18V12ZM24 36H0V6H24V36Z" fill="#a78bfa"/>
-          <path d="M48 30H36V18H48V30Z" fill="#6363f1"/>
-          <path d="M36 30H48V12H36V30ZM54 36H36V42H30V6H54V36Z" fill="#a78bfa"/>
-          <path d="M84 24V30H66V24H84Z" fill="#6363f1"/>
-          <path d="M84 24H66V30H84V36H60V6H84V24ZM66 18H78V12H66V18Z" fill="#a78bfa"/>
-          <path d="M108 36H96V18H108V36Z" fill="#6363f1"/>
-          <path d="M108 12H96V36H90V6H108V12ZM114 36H108V12H114V36Z" fill="#a78bfa"/>
-          <path d="M144 30H126V18H144V30Z" fill="#6363f1"/>
+        <svg width="24" height="24" viewBox="0 0 234 42" fill="none">
+          <path d="M18 30H6V18H18V30Z" fill="currentColor"/>
+          <path d="M18 12H6V30H18V12ZM24 36H0V6H24V36Z" fill="currentColor" opacity="0.5"/>
+          <path d="M48 30H36V18H48V30Z" fill="currentColor"/>
+          <path d="M36 30H48V12H36V30ZM54 36H36V42H30V6H54V36Z" fill="currentColor" opacity="0.5"/>
+          <path d="M84 24V30H66V24H84Z" fill="currentColor"/>
+          <path d="M84 24H66V30H84V36H60V6H84V24ZM66 18H78V12H66V18Z" fill="currentColor" opacity="0.5"/>
+          <path d="M108 36H96V18H108V36Z" fill="currentColor"/>
+          <path d="M108 12H96V36H90V6H108V12ZM114 36H108V12H114V36Z" fill="currentColor" opacity="0.5"/>
+          <path d="M144 30H126V18H144V30Z" fill="currentColor"/>
           <path d="M144 12H126V30H144V36H120V6H144V12Z" fill="white"/>
-          <path d="M168 30H156V18H168V30Z" fill="#6363f1"/>
+          <path d="M168 30H156V18H168V30Z" fill="currentColor"/>
           <path d="M168 12H156V30H168V12ZM174 36H150V6H174V36Z" fill="white"/>
-          <path d="M198 30H186V18H198V30Z" fill="#6363f1"/>
+          <path d="M198 30H186V18H198V30Z" fill="currentColor"/>
           <path d="M198 12H186V30H198V12ZM204 36H180V6H198V0H204V36Z" fill="white"/>
-          <path d="M234 24V30H216V24H234Z" fill="#6363f1"/>
+          <path d="M234 24V30H216V24H234Z" fill="currentColor"/>
           <path d="M216 12V18H228V12H216ZM234 24H216V30H234V36H210V6H234V24Z" fill="white"/>
         </svg>
-        <span>OpenCode <span class="nav-vs">vs</span> Claude Code</span>
+        <span><span class="nav-highlight">O</span>penCode <span class="nav-muted">vs</span> <span class="nav-highlight-cc">C</span>laude Code</span>
       </a>
-      <div class="nav-links">
-        <a href="#comparison">Compare</a>
-        <a href="#features">Features</a>
-        <a href="#benchmarks">Benchmarks</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#verdict">Verdict</a>
+      <div class="nav-links" id="navLinks">
+        <a href="#compare" class="nav-link">Compare</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#benchmarks" class="nav-link">Data</a>
+        <a href="#community" class="nav-link">Community</a>
+        <a href="#verdict" class="nav-link">Verdict</a>
+        <a href="https://github.com/ShishirDev420/opencode-vs-claude-code" target="_blank" rel="noopener" class="nav-gh">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
       </div>
-      <a href="https://github.com/ShishirDev420/opencode-vs-claude-code" target="_blank" rel="noopener" class="nav-gh-btn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        <span>GitHub</span>
-      </a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
 
-  <section class="hero" id="hero">
-    <div class="hero-bg"></div>
-    <canvas id="particles-canvas"></canvas>
-    <div class="hero-content">
-      <div class="hero-badge">June 2026 Edition</div>
-      <h1 class="hero-title">
-        <span class="gradient-text-oc">OpenCode</span>
-        <span class="hero-vs">vs</span>
-        <span class="gradient-text-cc">Claude Code</span>
-      </h1>
-      <p class="hero-subtitle">
-        The definitive, data-driven comparison of the two most dominant AI coding agents.<br>
-        Every stat, every feature, every dollar — synthesized from 20+ sources across X, Reddit, YouTube, and benchmarks.
-      </p>
-      <div class="hero-cta">
-        <a href="#comparison" class="btn-primary">Compare Now</a>
-        <a href="#verdict" class="btn-secondary">Skip to Verdict</a>
-      </div>
-      <div class="hero-stats-mini">
-        <div class="hero-stat">
-          <span class="hero-stat-num" data-target="161">0</span><span class="hero-stat-suffix">K+</span>
-          <span class="hero-stat-label">GitHub Stars</span>
+  <main id="main">
+    <section class="hero" id="hero">
+      <div class="hero-mesh"></div>
+      <canvas id="particles-canvas"></canvas>
+      <div class="hero-content">
+        <div class="hero-badge" data-reveal>
+          <span class="hero-badge-dot"></span>
+          June 2026 — Data-Driven Analysis
         </div>
-        <div class="hero-stat-divider"></div>
-        <div class="hero-stat">
-          <span class="hero-stat-num" data-target="7.5">0</span><span class="hero-stat-suffix">M+</span>
-          <span class="hero-stat-label">Monthly Devs</span>
-        </div>
-        <div class="hero-stat-divider"></div>
-        <div class="hero-stat">
-          <span class="hero-stat-num" data-target="326">0</span><span class="hero-stat-suffix">K</span>
-          <span class="hero-stat-label">Daily Commits</span>
+        <h1 class="hero-title" data-reveal>
+          <span class="hero-line"><span class="grad-oc">OpenCode</span></span>
+          <span class="hero-line hero-vs-line"><span class="hero-vs">vs</span></span>
+          <span class="hero-line"><span class="grad-cc">Claude Code</span></span>
+        </h1>
+        <p class="hero-sub" data-reveal>The definitive comparison of AI coding agents — synthesized from 20+ sources across X, Reddit, YouTube, and benchmarks.</p>
+        <div class="hero-actions" data-reveal>
+          <a href="#compare" class="btn magnetic"><span data-magnet>Explore the Data</span></a>
+          <a href="#verdict" class="btn btn-outline magnetic"><span data-magnet>Skip to Verdict</span></a>
         </div>
       </div>
-    </div>
-    <div class="scroll-indicator">
-      <span>Scroll to explore</span>
-      <div class="scroll-arrow"></div>
-    </div>
-  </section>
-
-  <section class="section comparison-preview" id="comparison">
-    <div class="section-label reveal">At a Glance</div>
-    <h2 class="section-title reveal">The Ultimate Comparison</h2>
-    <p class="section-desc reveal">Every critical dimension, side by side. Data aggregated from official docs, benchmarks, and community analysis.</p>
-
-    <div class="comparison-grid reveal">
-      <div class="comp-header comp-header-oc">
-        <div class="comp-logo">
-          <svg width="32" height="32" viewBox="0 0 234 42" fill="none">
-            <path d="M18 30H6V18H18V30Z" fill="currentColor"/>
-            <path d="M18 12H6V30H18V12ZM24 36H0V6H24V36Z" fill="currentColor" opacity="0.6"/>
-            <path d="M48 30H36V18H48V30Z" fill="currentColor"/>
-            <path d="M36 30H48V12H36V30ZM54 36H36V42H30V6H54V36Z" fill="currentColor" opacity="0.6"/>
-            <path d="M84 24V30H66V24H84Z" fill="currentColor"/>
-            <path d="M84 24H66V30H84V36H60V6H84V24ZM66 18H78V12H66V18Z" fill="currentColor" opacity="0.6"/>
-            <path d="M108 36H96V18H108V36Z" fill="currentColor"/>
-            <path d="M108 12H96V36H90V6H108V12ZM114 36H108V12H114V36Z" fill="currentColor" opacity="0.6"/>
-            <path d="M144 30H126V18H144V30Z" fill="currentColor"/>
-            <path d="M144 12H126V30H144V36H120V6H144V12Z" fill="white" fill-opacity="0.9"/>
-            <path d="M168 30H156V18H168V30Z" fill="currentColor"/>
-            <path d="M168 12H156V30H168V12ZM174 36H150V6H174V36Z" fill="white" fill-opacity="0.9"/>
-            <path d="M198 30H186V18H198V30Z" fill="currentColor"/>
-            <path d="M198 12H186V30H198V12ZM204 36H180V6H198V0H204V36Z" fill="white" fill-opacity="0.9"/>
-            <path d="M234 24V30H216V24H234Z" fill="currentColor"/>
-            <path d="M216 12V18H228V12H216ZM234 24H216V30H234V36H210V6H234V24Z" fill="white" fill-opacity="0.9"/>
-          </svg>
-          <span>OpenCode</span>
+      <div class="hero-marquee">
+        <div class="marquee-track">
+          <span>161K ★ GitHub Stars</span>
+          <span class="marquee-dot">•</span>
+          <span>7.5M Monthly Developers</span>
+          <span class="marquee-dot">•</span>
+          <span>326K Daily Commits</span>
+          <span class="marquee-dot">•</span>
+          <span>900+ Contributors</span>
+          <span class="marquee-dot">•</span>
+          <span>13K+ Commits</span>
+          <span class="marquee-dot">•</span>
+          <span>80.9% SWE-bench</span>
+          <span class="marquee-dot">•</span>
+          <span>75+ LLM Providers</span>
+          <span class="marquee-dot">•</span>
         </div>
-        <div class="comp-tag">MIT Open Source</div>
-      </div>
-      <div class="comp-header comp-header-cc">
-        <div class="comp-logo">
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2.5" fill="none"/>
-            <path d="M12 20c0 0 2 3 4 3s4-3 4-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
-            <circle cx="11" cy="13" r="1.5" fill="currentColor"/>
-            <circle cx="21" cy="13" r="1.5" fill="currentColor"/>
-          </svg>
-          <span>Claude Code</span>
+        <div class="marquee-track marquee-track-2" aria-hidden="true">
+          <span>161K ★ GitHub Stars</span>
+          <span class="marquee-dot">•</span>
+          <span>7.5M Monthly Developers</span>
+          <span class="marquee-dot">•</span>
+          <span>326K Daily Commits</span>
+          <span class="marquee-dot">•</span>
+          <span>900+ Contributors</span>
+          <span class="marquee-dot">•</span>
+          <span>13K+ Commits</span>
+          <span class="marquee-dot">•</span>
+          <span>80.9% SWE-bench</span>
+          <span class="marquee-dot">•</span>
+          <span>75+ LLM Providers</span>
+          <span class="marquee-dot">•</span>
         </div>
-        <div class="comp-tag">Proprietary</div>
       </div>
+      <div class="scroll-hint">
+        <div class="scroll-hint-line"></div>
+        <span>Scroll</span>
+      </div>
+    </section>
 
-      <div class="comp-row">
-        <div class="comp-cell comp-cell-oc"><span class="comp-check">&#10003;</span> Free + API costs</div>
-        <div class="comp-cell-label">Pricing</div>
-        <div class="comp-cell comp-cell-cc"><span class="comp-dollar">$</span> $20–200/mo or API</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-cell comp-cell-oc comp-cell-feature">75+ Providers</div>
-        <div class="comp-cell-label">Models</div>
-        <div class="comp-cell comp-cell-cc comp-cell-feature">Claude Only</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-cell comp-cell-oc"><span class="comp-check">&#10003;</span> Go</div>
-        <div class="comp-cell-label">Language</div>
-        <div class="comp-cell comp-cell-cc"><span class="comp-check">&#10003;</span> TypeScript</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-cell comp-cell-oc"><span class="comp-check">&#10003;</span> 161K ★</div>
-        <div class="comp-cell-label">GitHub Stars</div>
-        <div class="comp-cell comp-cell-cc"><span class="comp-check">&#10003;</span> 132K ★</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-cell comp-cell-oc"><span class="comp-check">&#10003;</span> Native</div>
-        <div class="comp-cell-label">LSP Integration</div>
-        <div class="comp-cell comp-cell-cc"><span class="comp-cross">&#10007;</span> No</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-cell comp-cell-oc"><span class="comp-check">&#10003;</span> Up to 10</div>
-        <div class="comp-cell-label">Multi-Agent</div>
-        <div class="comp-cell comp-cell-cc"><span class="comp-check">&#10003;</span> Subagents</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-cell comp-cell-oc"><span class="comp-check">&#10003;</span> Desktop Beta</div>
-        <div class="comp-cell-label">Desktop App</div>
-        <div class="comp-cell comp-cell-cc"><span class="comp-cross">&#10007;</span> No</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-cell comp-cell-oc"><span class="comp-check">&#10003;</span> Yes</div>
-        <div class="comp-cell-label">MCP Support</div>
-        <div class="comp-cell comp-cell-cc"><span class="comp-check">&#10003;</span> Yes</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-cell comp-cell-oc"><span class="comp-check">&#10003;</span> Yes</div>
-        <div class="comp-cell-label">Local Models</div>
-        <div class="comp-cell comp-cell-cc"><span class="comp-cross">&#10007;</span> No</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-cell comp-cell-oc"><span class="comp-check">&#10003;</span> Privacy-First</div>
-        <div class="comp-cell-label">Data Policy</div>
-        <div class="comp-cell comp-cell-cc"><span class="comp-check">&#10003;</span> Anthropic Servers</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section features" id="features">
-    <div class="section-label reveal">Deep Dive</div>
-    <h2 class="section-title reveal">Feature Breakdown</h2>
-    <p class="section-desc reveal">A granular look at what each tool brings to the table, with real community insights.</p>
-
-    <div class="features-tabs reveal">
-      <button class="tab-btn active" data-tab="models">Models & Flexibility</button>
-      <button class="tab-btn" data-tab="editing">Editing & Accuracy</button>
-      <button class="tab-btn" data-tab="agent">Agent Capabilities</button>
-      <button class="tab-btn" data-tab="ecosystem">Ecosystem</button>
+    <div class="section-divider">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,60 C360,120 1080,0 1440,60 L1440,120 L0,120 Z" fill="var(--bg2)"/></svg>
     </div>
 
-    <div class="tab-content active" id="tab-models">
-      <div class="tab-grid">
-        <div class="tab-card tab-card-oc">
-          <div class="tab-card-header">
+    <section class="section compare" id="compare">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-tag" data-reveal>At a Glance</span>
+          <h2 class="section-title" data-reveal>The Ultimate<br><span class="grad-oc">Comparison</span></h2>
+          <p class="section-desc" data-reveal>Every critical dimension, side by side. Data from official docs, community benchmarks, and independent analysis.</p>
+        </div>
+        <div class="comp-table" data-reveal>
+          <div class="comp-side comp-oc">
+            <div class="comp-side-header">
+              <svg width="28" height="28" viewBox="0 0 234 42" fill="none">
+                <path d="M18 30H6V18H18V30Z" fill="currentColor"/><path d="M18 12H6V30H18V12ZM24 36H0V6H24V36Z" fill="currentColor" opacity="0.5"/>
+                <path d="M48 30H36V18H48V30Z" fill="currentColor"/><path d="M36 30H48V12H36V30ZM54 36H36V42H30V6H54V36Z" fill="currentColor" opacity="0.5"/>
+                <path d="M84 24V30H66V24H84Z" fill="currentColor"/><path d="M84 24H66V30H84V36H60V6H84V24ZM66 18H78V12H66V18Z" fill="currentColor" opacity="0.5"/>
+                <path d="M108 36H96V18H108V36Z" fill="currentColor"/><path d="M108 12H96V36H90V6H108V12ZM114 36H108V12H114V36Z" fill="currentColor" opacity="0.5"/>
+                <path d="M144 30H126V18H144V30Z" fill="currentColor"/><path d="M144 12H126V30H144V36H120V6H144V12Z" fill="white" fill-opacity="0.9"/>
+                <path d="M168 30H156V18H168V30Z" fill="currentColor"/><path d="M168 12H156V30H168V12ZM174 36H150V6H174V36Z" fill="white" fill-opacity="0.9"/>
+                <path d="M198 30H186V18H198V30Z" fill="currentColor"/><path d="M198 12H186V30H198V12ZM204 36H180V6H198V0H204V36Z" fill="white" fill-opacity="0.9"/>
+                <path d="M234 24V30H216V24H234Z" fill="currentColor"/><path d="M216 12V18H228V12H216ZM234 24H216V30H234V36H210V6H234V24Z" fill="white" fill-opacity="0.9"/>
+              </svg>
+              <span>OpenCode</span>
+              <span class="comp-pill pill-oc">MIT</span>
+            </div>
+            <div class="comp-rows">
+              <div class="comp-item"><span class="comp-item-label">Pricing</span><span class="comp-item-val">Free + API costs</span></div>
+              <div class="comp-item"><span class="comp-item-label">Models</span><span class="comp-item-val">75+ Providers</span></div>
+              <div class="comp-item"><span class="comp-item-label">Language</span><span class="comp-item-val">Go</span></div>
+              <div class="comp-item"><span class="comp-item-label">Stars</span><span class="comp-item-val">161K ★</span></div>
+              <div class="comp-item"><span class="comp-item-label">LSP</span><span class="comp-item-val native">Native</span></div>
+              <div class="comp-item"><span class="comp-item-label">Multi-Agent</span><span class="comp-item-val">Up to 10</span></div>
+              <div class="comp-item"><span class="comp-item-label">Desktop</span><span class="comp-item-val native">Beta</span></div>
+              <div class="comp-item"><span class="comp-item-label">Local Models</span><span class="comp-item-val native">Yes</span></div>
+              <div class="comp-item"><span class="comp-item-label">Privacy</span><span class="comp-item-val native">First</span></div>
+            </div>
+          </div>
+          <div class="comp-vs-badge">
+            <span>VS</span>
+          </div>
+          <div class="comp-side comp-cc">
+            <div class="comp-side-header">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                <path d="M12 20c0 0 2 3 4 3s4-3 4-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <circle cx="11" cy="13" r="1.5" fill="currentColor"/>
+                <circle cx="21" cy="13" r="1.5" fill="currentColor"/>
+              </svg>
+              <span>Claude Code</span>
+              <span class="comp-pill pill-cc">Proprietary</span>
+            </div>
+            <div class="comp-rows">
+              <div class="comp-item"><span class="comp-item-label">Pricing</span><span class="comp-item-val">$20–200/mo</span></div>
+              <div class="comp-item"><span class="comp-item-label">Models</span><span class="comp-item-val">Claude Only</span></div>
+              <div class="comp-item"><span class="comp-item-label">Language</span><span class="comp-item-val">TypeScript</span></div>
+              <div class="comp-item"><span class="comp-item-label">Stars</span><span class="comp-item-val">132K ★</span></div>
+              <div class="comp-item"><span class="comp-item-label">LSP</span><span class="comp-item-val missing">No</span></div>
+              <div class="comp-item"><span class="comp-item-label">Multi-Agent</span><span class="comp-item-val">Subagents</span></div>
+              <div class="comp-item"><span class="comp-item-label">Desktop</span><span class="comp-item-val missing">No</span></div>
+              <div class="comp-item"><span class="comp-item-label">Local Models</span><span class="comp-item-val missing">No</span></div>
+              <div class="comp-item"><span class="comp-item-label">Privacy</span><span class="comp-item-val">Anthropic SV</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider invert">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,60 C360,0 1080,120 1440,60 L1440,0 L0,0 Z" fill="var(--bg)"/></svg>
+    </div>
+
+    <section class="section features" id="features">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-tag" data-reveal>Deep Dive</span>
+          <h2 class="section-title" data-reveal>Feature <span class="grad-cc">Breakdown</span></h2>
+          <p class="section-desc" data-reveal>Granular analysis of each tool's capabilities with real community insights.</p>
+        </div>
+        <div class="tabs" data-reveal>
+          <div class="tabs-nav">
+            <button class="tab-trigger active" data-tab="models">Models</button>
+            <button class="tab-trigger" data-tab="editing">Editing</button>
+            <button class="tab-trigger" data-tab="agents">Agents</button>
+            <button class="tab-trigger" data-tab="ecosystem">Ecosystem</button>
+          </div>
+          <div class="tabs-panels">
+            <div class="tab-panel active" id="panel-models">
+              <div class="tab-grid">
+                <div class="tab-card" data-reveal>
+                  <div class="tab-card-head">
+                    <h3><span class="dot dot-oc"></span>OpenCode</h3>
+                    <span class="tab-score">9.5</span>
+                  </div>
+                  <ul>
+                    <li>75+ LLM providers via Models.dev</li>
+                    <li>Native multi-model routing</li>
+                    <li>Ollama support for local models</li>
+                    <li>BYOK — use your existing API keys</li>
+                    <li>Model switching per task</li>
+                  </ul>
+                  <blockquote>"OpenCode handles multiple models more seamlessly"<cite>XDA Developers, May 2026</cite></blockquote>
+                </div>
+                <div class="tab-card" data-reveal>
+                  <div class="tab-card-head">
+                    <h3><span class="dot dot-cc"></span>Claude Code</h3>
+                    <span class="tab-score">7.5</span>
+                  </div>
+                  <ul>
+                    <li>Claude models only (Opus, Sonnet, Haiku)</li>
+                    <li>Best Claude tuning for the CLI harness</li>
+                    <li>No model switching</li>
+                    <li>Pro/Max subscription or API billing</li>
+                    <li>Community proxy projects exist but brittle</li>
+                  </ul>
+                  <blockquote>"The advantage isn't Claude Code, it's Claude"<cite>XDA Developers</cite></blockquote>
+                </div>
+              </div>
+            </div>
+            <div class="tab-panel" id="panel-editing">
+              <div class="tab-grid">
+                <div class="tab-card" data-reveal>
+                  <div class="tab-card-head">
+                    <h3><span class="dot dot-oc"></span>OpenCode</h3>
+                    <span class="tab-score">9.0</span>
+                  </div>
+                  <ul>
+                    <li>Hashline edit tool (Oh-My-OpenAgent)</li>
+                    <li>Precise surgical edits with context</li>
+                    <li>Multi-file refactoring automation</li>
+                    <li>LSP-aware for smart completions</li>
+                    <li>Visual diff via IDE integration</li>
+                  </ul>
+                </div>
+                <div class="tab-card" data-reveal>
+                  <div class="tab-card-head">
+                    <h3><span class="dot dot-cc"></span>Claude Code</h3>
+                    <span class="tab-score">9.5</span>
+                  </div>
+                  <ul>
+                    <li>Mature built-in Edit tool</li>
+                    <li>Context-aware multi-line matching</li>
+                    <li>Auto-commit with descriptive messages</li>
+                    <li>PR creation from edits</li>
+                    <li>Extended thinking for complex refactors</li>
+                  </ul>
+                  <blockquote>"Wins blind code quality reviews (~67%)"<cite>Dr. Amit Ray, May 2026</cite></blockquote>
+                </div>
+              </div>
+            </div>
+            <div class="tab-panel" id="panel-agents">
+              <div class="tab-grid">
+                <div class="tab-card" data-reveal>
+                  <div class="tab-card-head">
+                    <h3><span class="dot dot-oc"></span>OpenCode</h3>
+                    <span class="tab-score">9.0</span>
+                  </div>
+                  <ul>
+                    <li>Up to 10 parallel agents (with OmO)</li>
+                    <li>Scout subagent for external docs</li>
+                    <li>Background subagents</li>
+                    <li>Multi-session parallel execution</li>
+                    <li>Agent View coming</li>
+                  </ul>
+                </div>
+                <div class="tab-card" data-reveal>
+                  <div class="tab-card-head">
+                    <h3><span class="dot dot-cc"></span>Claude Code</h3>
+                    <span class="tab-score">9.0</span>
+                  </div>
+                  <ul>
+                    <li>Subagent spawning for parallel tasks</li>
+                    <li>Agent View fleet management</li>
+                    <li>/goal command for autonomous execution</li>
+                    <li>Background agent support</li>
+                    <li>Hooks system for automation</li>
+                  </ul>
+                  <blockquote>"10%+ of all public GitHub commits"<cite>Morphllm, June 2026</cite></blockquote>
+                </div>
+              </div>
+            </div>
+            <div class="tab-panel" id="panel-ecosystem">
+              <div class="tab-grid">
+                <div class="tab-card" data-reveal>
+                  <div class="tab-card-head">
+                    <h3><span class="dot dot-oc"></span>OpenCode</h3>
+                    <span class="tab-score">9.5</span>
+                  </div>
+                  <ul>
+                    <li>MIT open source (161K stars)</li>
+                    <li>Desktop app beta (macOS, Win, Linux)</li>
+                    <li>VS Code extension</li>
+                    <li>75+ provider ecosystem</li>
+                    <li>Share links for sessions</li>
+                  </ul>
+                </div>
+                <div class="tab-card" data-reveal>
+                  <div class="tab-card-head">
+                    <h3><span class="dot dot-cc"></span>Claude Code</h3>
+                    <span class="tab-score">8.0</span>
+                  </div>
+                  <ul>
+                    <li>Source-available (132K stars)</li>
+                    <li>CLI only (no desktop app)</li>
+                    <li>VS Code & JetBrains plugins</li>
+                    <li>Anthropic ecosystem lock-in</li>
+                    <li>Plugin ecosystem emerging</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,60 C360,120 1080,0 1440,60 L1440,120 L0,120 Z" fill="var(--bg2)"/></svg>
+    </div>
+
+    <section class="section benchmarks" id="benchmarks">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-tag" data-reveal>By the Numbers</span>
+          <h2 class="section-title" data-reveal>Performance <span class="grad-oc">Data</span></h2>
+          <p class="section-desc" data-reveal>Hard evidence from SWE-bench, Terminal-Bench, and community analysis.</p>
+        </div>
+        <div class="bench-grid">
+          <div class="bench-card" data-reveal>
+            <h4>SWE-bench Verified</h4>
+            <div class="bench-bar-group">
+              <div class="bench-row">
+                <span>OpenCode</span>
+                <div class="bench-track"><div class="bench-fill fill-oc" style="--w:87%"></div></div>
+                <span class="bench-val">87.0%</span>
+              </div>
+              <div class="bench-row">
+                <span>Claude Code</span>
+                <div class="bench-track"><div class="bench-fill fill-cc" style="--w:87.6%"></div></div>
+                <span class="bench-val">87.6%</span>
+              </div>
+            </div>
+          </div>
+          <div class="bench-card" data-reveal>
+            <h4>Community Sentiment</h4>
+            <div class="bench-bar-group">
+              <div class="bench-row">
+                <span>OpenCode Value</span>
+                <div class="bench-track"><div class="bench-fill fill-oc" style="--w:92%"></div></div>
+                <span class="bench-val">92%</span>
+              </div>
+              <div class="bench-row">
+                <span>CC Quality</span>
+                <div class="bench-track"><div class="bench-fill fill-cc" style="--w:88%"></div></div>
+                <span class="bench-val">88%</span>
+              </div>
+            </div>
+          </div>
+          <div class="bench-card" data-reveal>
+            <h4>Token Efficiency</h4>
+            <div class="bench-bar-group">
+              <div class="bench-row">
+                <span>OpenCode</span>
+                <div class="bench-track"><div class="bench-fill fill-oc" style="--w:85%"></div></div>
+                <span class="bench-val">3x less</span>
+              </div>
+              <div class="bench-row">
+                <span>Claude Code</span>
+                <div class="bench-track"><div class="bench-fill fill-cc" style="--w:60%"></div></div>
+                <span class="bench-val">Standard</span>
+              </div>
+            </div>
+          </div>
+          <div class="bench-card" data-reveal>
+            <h4>GitHub Growth (6mo)</h4>
+            <div class="bench-bar-group">
+              <div class="bench-row">
+                <span>OpenCode</span>
+                <div class="bench-track"><div class="bench-fill fill-oc" style="--w:44%"></div></div>
+                <span class="bench-val">112K→161K</span>
+              </div>
+              <div class="bench-row">
+                <span>Claude Code</span>
+                <div class="bench-track"><div class="bench-fill fill-cc" style="--w:86%"></div></div>
+                <span class="bench-val">71K→132K</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bench-callout" data-reveal>
+          <span class="callout-icon">&#128200;</span>
+          <div><strong>Key Insight:</strong> With the same model, OpenCode + Sonnet 4 <em>matches</em> Claude Code quality. The tool is not the differentiator — the model is. OpenCode wins on flexibility and cost; Claude Code wins on polish.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider invert">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,60 C360,0 1080,120 1440,60 L1440,0 L0,0 Z" fill="var(--bg)"/></svg>
+    </div>
+
+    <section class="section community" id="community">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-tag" data-reveal>Voices</span>
+          <h2 class="section-title" data-reveal>Community <span class="grad-cc">Pulse</span></h2>
+          <p class="section-desc" data-reveal>What influential voices are saying — from YouTube to X to tech publications.</p>
+        </div>
+        <div class="quotes-grid">
+          <div class="quote-card" data-reveal>
+            <div class="quote-avatar" style="--avatar-bg: linear-gradient(135deg, #6363f1, #a78bfa)">MB</div>
+            <p>"Models now write meaningful chunks of code. Tools like Claude Code and OpenCode are reshaping what it means to be a developer."</p>
+            <div class="quote-meta"><strong>Matthew Berman</strong><span>613K subscribers</span></div>
+          </div>
+          <div class="quote-card" data-reveal>
+            <div class="quote-avatar" style="--avatar-bg: linear-gradient(135deg, #10b981, #34d399)">XD</div>
+            <p>"The more I used OpenCode, the more I realized what I liked was Claude itself, not Claude Code. It's every bit as good with any model."</p>
+            <div class="quote-meta"><strong>Mahnoor (XDA)</strong><span>May 2026</span></div>
+          </div>
+          <div class="quote-card" data-reveal>
+            <div class="quote-avatar" style="--avatar-bg: linear-gradient(135deg, #f59e0b, #fbbf24)">BI</div>
+            <p>"OpenCode gained 3,610 stars in five days — competition is accelerating. Feature parity will tighten further."</p>
+            <div class="quote-meta"><strong>ByteIota</strong><span>Battle Guide 2026</span></div>
+          </div>
+          <div class="quote-card" data-reveal>
+            <div class="quote-avatar" style="--avatar-bg: linear-gradient(135deg, #06b6d4, #6363f1)">CF</div>
+            <p>"OpenCode + Sonnet 4 matches Claude Code quality. The tradeoff is maturity vs flexibility — 75+ providers is unbeatable."</p>
+            <div class="quote-meta"><strong>ComputingForGeeks</strong><span>Apr 2026</span></div>
+          </div>
+          <div class="quote-card" data-reveal>
+            <div class="quote-avatar" style="--avatar-bg: linear-gradient(135deg, #8b5cf6, #ec4899)">AR</div>
+            <p>"Over 90% of Anthropic's internal codebase is now written by Claude Code. But OpenCode with any provider is the pragmatic choice."</p>
+            <div class="quote-meta"><strong>Dr. Amit Ray</strong><span>May 2026</span></div>
+          </div>
+          <div class="quote-card" data-reveal>
+            <div class="quote-avatar" style="--avatar-bg: linear-gradient(135deg, #6363f1, #06b6d4)">ML</div>
+            <p>"OpenCode: 75 providers + desktop app + 7.5M devs. Claude Code: Agent View + /goal + 10% of all GitHub commits. Both are winning."</p>
+            <div class="quote-meta"><strong>Morphllm</strong><span>June 2026</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,60 C360,120 1080,0 1440,60 L1440,120 L0,120 Z" fill="var(--bg2)"/></svg>
+    </div>
+
+    <section class="section pricing" id="pricing">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-tag" data-reveal>Cost</span>
+          <h2 class="section-title" data-reveal>Pricing &amp; <span class="grad-oc">Value</span></h2>
+          <p class="section-desc" data-reveal>What you actually pay — and what you get for it.</p>
+        </div>
+        <div class="price-grid">
+          <div class="price-card price-oc" data-reveal>
+            <div class="price-badge">Best Value</div>
             <h3>OpenCode</h3>
-            <span class="tab-score">9.5/10</span>
+            <div class="price-amt"><span class="price-cur">$</span>0</div>
+            <p class="price-sub">Free tool + your API costs</p>
+            <ul>
+              <li><span class="price-icon check">&#10003;</span> Unlimited sessions</li>
+              <li><span class="price-icon check">&#10003;</span> 75+ LLM providers</li>
+              <li><span class="price-icon check">&#10003;</span> Local models via Ollama</li>
+              <li><span class="price-icon check">&#10003;</span> 10 parallel agents</li>
+              <li><span class="price-icon check">&#10003;</span> Desktop app included</li>
+              <li><span class="price-icon check">&#10003;</span> No vendor lock-in</li>
+            </ul>
+            <div class="price-meta">Typical: <strong>$5–30/mo</strong> (API)</div>
+            <a href="https://opencode.ai" target="_blank" rel="noopener" class="btn magnetic w-full"><span data-magnet>Get OpenCode Free</span></a>
           </div>
-          <ul class="tab-list">
-            <li>75+ LLM providers via Models.dev</li>
-            <li>Native multi-model routing</li>
-            <li>Ollama support for local models</li>
-            <li>BYOK — use your existing API keys</li>
-            <li>Model switching per task</li>
-          </ul>
-          <div class="tab-quote">
-            "OpenCode handles multiple models more seamlessly"
-            <span>— XDA Developers, May 2026</span>
-          </div>
-        </div>
-        <div class="tab-card tab-card-cc">
-          <div class="tab-card-header">
+          <div class="price-card price-cc" data-reveal>
             <h3>Claude Code</h3>
-            <span class="tab-score">7.5/10</span>
+            <div class="price-amt"><span class="price-cur">$</span>20<span class="price-per">/mo</span></div>
+            <p class="price-sub">Pro plan minimum</p>
+            <ul>
+              <li><span class="price-icon check">&#10003;</span> Claude model access</li>
+              <li><span class="price-icon check">&#10003;</span> Extended thinking</li>
+              <li><span class="price-icon check">&#10003;</span> Auto-commit & PR creation</li>
+              <li><span class="price-icon check">&#10003;</span> Agent View dashboard</li>
+              <li><span class="price-icon cross">&#10007;</span> No model flexibility</li>
+              <li><span class="price-icon cross">&#10007;</span> Vendor lock-in</li>
+            </ul>
+            <div class="price-meta">Or API: <strong>$5/M in + $25/M out</strong></div>
+            <a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener" class="btn btn-outline magnetic w-full"><span data-magnet>Try Claude Code</span></a>
           </div>
-          <ul class="tab-list">
-            <li>Claude models only (Opus, Sonnet, Haiku)</li>
-            <li>Best Claude tuning for the CLI harness</li>
-            <li>No model switching (Claude only)</li>
-            <li>Pro/Max subscription or API billing</li>
-            <li>Community proxy projects exist but brittle</li>
-          </ul>
-          <div class="tab-quote">
-            "The advantage isn't Claude Code, it's Claude"
-            <span>— XDA Developers</span>
-          </div>
+        </div>
+        <div class="price-callout" data-reveal>
+          <strong>Pro tip:</strong> Use OpenCode with Claude API keys = same model, zero lock-in, lower cost. Claude's brain, OpenCode's freedom.
         </div>
       </div>
+    </section>
+
+    <div class="section-divider invert">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,60 C360,0 1080,120 1440,60 L1440,0 L0,0 Z" fill="var(--bg)"/></svg>
     </div>
 
-    <div class="tab-content" id="tab-editing">
-      <div class="tab-grid">
-        <div class="tab-card tab-card-oc">
-          <div class="tab-card-header">
-            <h3>OpenCode</h3>
-            <span class="tab-score">9/10</span>
-          </div>
-          <ul class="tab-list">
-            <li>Hashline edit tool (Oh-My-OpenAgent)</li>
-            <li>Precise surgical edits with context</li>
-            <li>Multi-file refactoring automation</li>
-            <li>LSP-aware for smart completions</li>
-            <li>Visual diff via IDE integration</li>
-          </ul>
+    <section class="section verdict" id="verdict">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-tag" data-reveal>The Bottom Line</span>
+          <h2 class="section-title" data-reveal>Which One <span class="grad-cc">Wins?</span></h2>
+          <p class="section-desc" data-reveal>No fluff. No bias. Here's the truth based on all the data.</p>
         </div>
-        <div class="tab-card tab-card-cc">
-          <div class="tab-card-header">
-            <h3>Claude Code</h3>
-            <span class="tab-score">9.5/10</span>
-          </div>
-          <ul class="tab-list">
-            <li>Mature built-in Edit tool</li>
-            <li>Context-aware multi-line matching</li>
-            <li>Auto-commit with descriptive messages</li>
-            <li>PR creation from edits</li>
-            <li>Extended thinking mode for complex refactors</li>
-          </ul>
-          <div class="tab-quote">
-            "Wins blind code quality reviews (~67%)"
-            <span>— Dr. Amit Ray Comparative Study, May 2026</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tab-content" id="tab-agent">
-      <div class="tab-grid">
-        <div class="tab-card tab-card-oc">
-          <div class="tab-card-header">
-            <h3>OpenCode</h3>
-            <span class="tab-score">9/10</span>
-          </div>
-          <ul class="tab-list">
-            <li>Up to 10 parallel agents (with OmO)</li>
-            <li>Scout subagent for external docs research</li>
-            <li>Background subagents</li>
-            <li>Multi-session parallel execution</li>
-            <li>Agent View coming</li>
-          </ul>
-        </div>
-        <div class="tab-card tab-card-cc">
-          <div class="tab-card-header">
-            <h3>Claude Code</h3>
-            <span class="tab-score">9/10</span>
-          </div>
-          <ul class="tab-list">
-            <li>Subagent spawning for parallel tasks</li>
-            <li>Agent View fleet management dashboard</li>
-            <li>/goal command for autonomous execution</li>
-            <li>Background agent support</li>
-            <li>Hooks system for automation</li>
-          </ul>
-          <div class="tab-quote">
-            "10%+ of all public GitHub commits peak 326K/day"
-            <span>— Morphllm, June 2026</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tab-content" id="tab-ecosystem">
-      <div class="tab-grid">
-        <div class="tab-card tab-card-oc">
-          <div class="tab-card-header">
-            <h3>OpenCode</h3>
-            <span class="tab-score">9.5/10</span>
-          </div>
-          <ul class="tab-list">
-            <li>MIT open source (161K stars, 900+ contributors)</li>
-            <li>Desktop app beta (macOS, Windows, Linux)</li>
-            <li>VS Code extension</li>
-            <li>75+ provider ecosystem</li>
-            <li>Share links for sessions</li>
-          </ul>
-        </div>
-        <div class="tab-card tab-card-cc">
-          <div class="tab-card-header">
-            <h3>Claude Code</h3>
-            <span class="tab-score">8/10</span>
-          </div>
-          <ul class="tab-list">
-            <li>Source-available (132K stars)</li>
-            <li>CLI only (no desktop app)</li>
-            <li>VS Code & JetBrains plugins</li>
-            <li>Anthropic ecosystem lock-in</li>
-            <li>Plugin ecosystem emerging</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section benchmarks" id="benchmarks">
-    <div class="section-label reveal">By the Numbers</div>
-    <h2 class="section-title reveal">Performance Benchmarks</h2>
-    <p class="section-desc reveal">Hard data from SWE-bench, Terminal-Bench, and real-world usage analysis.</p>
-
-    <div class="benchmark-grid reveal">
-      <div class="benchmark-card">
-        <h3 class="benchmark-title">SWE-bench Verified</h3>
-        <div class="benchmark-bars">
-          <div class="bench-bar">
-            <span class="bench-bar-label">OpenCode (Sonnet 4)</span>
-            <div class="bench-bar-track">
-              <div class="bench-bar-fill bar-oc" style="width: 87%"></div>
+        <div class="verdict-grid">
+          <div class="verdict-card verdict-oc" data-reveal>
+            <div class="verdict-icon">
+              <svg width="40" height="40" viewBox="0 0 234 42" fill="none">
+                <path d="M18 30H6V18H18V30Z" fill="currentColor"/><path d="M18 12H6V30H18V12ZM24 36H0V6H24V36Z" fill="currentColor" opacity="0.5"/>
+                <path d="M48 30H36V18H48V30Z" fill="currentColor"/><path d="M36 30H48V12H36V30ZM54 36H36V42H30V6H54V36Z" fill="currentColor" opacity="0.5"/>
+                <path d="M84 24V30H66V24H84Z" fill="currentColor"/><path d="M84 24H66V30H84V36H60V6H84V24ZM66 18H78V12H66V18Z" fill="currentColor" opacity="0.5"/>
+                <path d="M108 36H96V18H108V36Z" fill="currentColor"/><path d="M108 12H96V36H90V6H108V12ZM114 36H108V12H114V36Z" fill="currentColor" opacity="0.5"/>
+                <path d="M144 30H126V18H144V30Z" fill="currentColor"/><path d="M144 12H126V30H144V36H120V6H144V12Z" fill="white" fill-opacity="0.9"/>
+                <path d="M168 30H156V18H168V30Z" fill="currentColor"/><path d="M168 12H156V30H168V12ZM174 36H150V6H174V36Z" fill="white" fill-opacity="0.9"/>
+                <path d="M198 30H186V18H198V30Z" fill="currentColor"/><path d="M198 12H186V30H198V12ZM204 36H180V6H198V0H204V36Z" fill="white" fill-opacity="0.9"/>
+                <path d="M234 24V30H216V24H234Z" fill="currentColor"/><path d="M216 12V18H228V12H216ZM234 24H216V30H234V36H210V6H234V24Z" fill="white" fill-opacity="0.9"/>
+              </svg>
             </div>
-            <span class="bench-bar-val">87.0%</span>
+            <h3>Choose OpenCode</h3>
+            <ul>
+              <li>Model flexibility (75+ providers)</li>
+              <li>Privacy & local models</li>
+              <li>Budget-conscious or startup</li>
+              <li>Open-source philosophy</li>
+              <li>Desktop app</li>
+              <li>Vim/terminal workflows</li>
+            </ul>
+            <div class="verdict-score"><span class="vs-num vs-num-oc">92%</span><span>Satisfaction</span></div>
           </div>
-          <div class="bench-bar">
-            <span class="bench-bar-label">Claude Code (Opus 4.8)</span>
-            <div class="bench-bar-track">
-              <div class="bench-bar-fill bar-cc" style="width: 87.6%"></div>
+          <div class="verdict-or" data-reveal>
+            <span>OR</span>
+          </div>
+          <div class="verdict-card verdict-cc" data-reveal>
+            <div class="verdict-icon">
+              <svg width="40" height="40" viewBox="0 0 32 32" fill="none">
+                <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                <path d="M12 20c0 0 2 3 4 3s4-3 4-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <circle cx="11" cy="13" r="1.5" fill="currentColor"/>
+                <circle cx="21" cy="13" r="1.5" fill="currentColor"/>
+              </svg>
             </div>
-            <span class="bench-bar-val">87.6%</span>
+            <h3>Choose Claude Code</h3>
+            <ul>
+              <li>Most polished experience</li>
+              <li>Deep codebase refactoring</li>
+              <li>Already have Anthropic sub</li>
+              <li>Agentic autonomy (/goal)</li>
+              <li>Managed fleet (Agent View)</li>
+              <li>Enterprise contracts</li>
+            </ul>
+            <div class="verdict-score"><span class="vs-num vs-num-cc">88%</span><span>Code Quality</span></div>
           </div>
         </div>
+        <div class="verdict-final" data-reveal>
+          <div class="vf-icon">&#9878;</div>
+          <h3>The Honest Answer</h3>
+          <p>With the <strong>same Claude model</strong>, OpenCode matches Claude Code on quality — while giving you freedom to use any other model. Most power users run <strong>both</strong>: OpenCode daily, Claude Code when only the best integration will do.</p>
+          <div class="vf-tldr"><strong>TL;DR:</strong> Pick OpenCode for freedom and value. Pick Claude Code for polish. Either way, you win.</div>
+        </div>
       </div>
+    </section>
 
-      <div class="benchmark-card">
-        <h3 class="benchmark-title">Community Sentiment</h3>
-        <div class="benchmark-bars">
-          <div class="bench-bar">
-            <span class="bench-bar-label">OpenCode — Value</span>
-            <div class="bench-bar-track">
-              <div class="bench-bar-fill bar-oc" style="width: 92%"></div>
-            </div>
-            <span class="bench-bar-val">92%</span>
-          </div>
-          <div class="bench-bar">
-            <span class="bench-bar-label">Claude Code — Quality</span>
-            <div class="bench-bar-track">
-              <div class="bench-bar-fill bar-cc" style="width: 88%"></div>
-            </div>
-            <span class="bench-bar-val">88%</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="benchmark-card">
-        <h3 class="benchmark-title">Token Efficiency</h3>
-        <div class="benchmark-bars">
-          <div class="bench-bar">
-            <span class="bench-bar-label">OpenCode (any model)</span>
-            <div class="bench-bar-track">
-              <div class="bench-bar-fill bar-oc" style="width: 85%"></div>
-            </div>
-            <span class="bench-bar-val">3x less tokens</span>
-          </div>
-          <div class="bench-bar">
-            <span class="bench-bar-label">Claude Code (Opus)</span>
-            <div class="bench-bar-track">
-              <div class="bench-bar-fill bar-cc" style="width: 60%"></div>
-            </div>
-            <span class="bench-bar-val">Standard</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="benchmark-card">
-        <h3 class="benchmark-title">GitHub Growth (6mo)</h3>
-        <div class="benchmark-bars">
-          <div class="bench-bar">
-            <span class="bench-bar-label">OpenCode</span>
-            <div class="bench-bar-track">
-              <div class="bench-bar-fill bar-oc" style="width: 44%"></div>
-            </div>
-            <span class="bench-bar-val">112K → 161K</span>
-          </div>
-          <div class="bench-bar">
-            <span class="bench-bar-label">Claude Code</span>
-            <div class="bench-bar-track">
-              <div class="bench-bar-fill bar-cc" style="width: 86%"></div>
-            </div>
-            <span class="bench-bar-val">71K → 132K</span>
-          </div>
-        </div>
-      </div>
+    <div class="section-divider">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,60 C360,120 1080,0 1440,60 L1440,120 L0,120 Z" fill="var(--bg2)"/></svg>
     </div>
-
-    <div class="benchmark-insight reveal">
-      <div class="insight-icon">&#128200;</div>
-      <div class="insight-text">
-        <strong>Key Insight:</strong> With the same model behind them, OpenCode + Sonnet 4 <em>matches</em> Claude Code quality. The tool isn't the differentiator — the model is. OpenCode wins on flexibility and cost; Claude Code wins on polish and deep codebase work.
-        <span class="insight-source">— ComputingForGeeks, ByteIota, multiple sources</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="section community" id="community">
-    <div class="section-label reveal">Community Pulse</div>
-    <h2 class="section-title reveal">What Influencers Are Saying</h2>
-    <p class="section-desc reveal">Real quotes from real voices — synthesized from X, YouTube, Reddit, and tech publications.</p>
-
-    <div class="quotes-grid reveal">
-      <div class="quote-card">
-        <div class="quote-avatar">
-          <div class="avatar-placeholder" style="background: linear-gradient(135deg, #6363f1, #a78bfa)">MB</div>
-        </div>
-        <div class="quote-body">
-          <p>"Models now write meaningful chunks of code. Tools like Claude Code and OpenCode are reshaping what it means to be a developer. The scaffolding around models is catching up fast."</p>
-          <div class="quote-author">
-            <strong>Matthew Berman</strong>
-            <span>613K subscribers, AI commentator</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="quote-card">
-        <div class="quote-avatar">
-          <div class="avatar-placeholder" style="background: linear-gradient(135deg, #10b981, #34d399)">XD</div>
-        </div>
-        <div class="quote-body">
-          <p>"OpenCode handles multiple models more seamlessly. The more I used OpenCode, the more I realized what I liked was Claude itself, not Claude Code. It's every bit as good with any model."</p>
-          <div class="quote-author">
-            <strong>Mahnoor (XDA Developers)</strong>
-            <span>May 2026</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="quote-card">
-        <div class="quote-avatar">
-          <div class="avatar-placeholder" style="background: linear-gradient(135deg, #f59e0b, #fbbf24)">MM</div>
-        </div>
-        <div class="quote-body">
-          <p>"OpenCode gained 3,610 stars in five days — competition is accelerating fast. Feature parity will tighten further. The winner? Developers who get powerful coding agents at competitive prices."</p>
-          <div class="quote-author">
-            <strong>ByteIota</strong>
-            <span>Battle Guide, Jan 2026</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="quote-card">
-        <div class="quote-avatar">
-          <div class="avatar-placeholder" style="background: linear-gradient(135deg, #6363f1, #06b6d4)">CF</div>
-        </div>
-        <div class="quote-body">
-          <p>"OpenCode with Oh-My-OpenAgent + Sonnet 4 matches Claude Code quality. The tradeoff is maturity vs flexibility. OpenCode ships fast — occasional bugs, but 75+ providers is unbeatable."</p>
-          <div class="quote-author">
-            <strong>ComputingForGeeks</strong>
-            <span>April 2026 Comparison</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="quote-card">
-        <div class="quote-avatar">
-          <div class="avatar-placeholder" style="background: linear-gradient(135deg, #8b5cf6, #ec4899)">DR</div>
-        </div>
-        <div class="quote-body">
-          <p>"Over 90% of Anthropic's own internal codebase is now written directly by Claude Code. But for cost-effective flexibility, OpenCode with any provider is the pragmatic choice."</p>
-          <div class="quote-author">
-            <strong>Dr. Amit Ray</strong>
-            <span>Comparative Study, May 2026</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="quote-card">
-        <div class="quote-avatar">
-          <div class="avatar-placeholder" style="background: linear-gradient(135deg, #06b6d4, #6363f1)">RC</div>
-        </div>
-        <div class="quote-body">
-          <p>"OpenCode is open source + 75 providers + desktop app + 7.5M monthly devs. Claude Code is Agent View + /goal autonomy + 10%+ of all GitHub commits. Both are winning."</p>
-          <div class="quote-author">
-            <strong>Morphllm</strong>
-            <span>June 2026</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section pricing-section" id="pricing">
-    <div class="section-label reveal">Money Talk</div>
-    <h2 class="section-title reveal">Pricing & Value</h2>
-    <p class="section-desc reveal">What you actually pay, and what you get for it.</p>
-
-    <div class="pricing-grid reveal">
-      <div class="pricing-card pricing-oc">
-        <div class="pricing-badge">Best Value</div>
-        <div class="pricing-header">
-          <h3>OpenCode</h3>
-          <div class="pricing-amount"><span class="pricing-currency">$</span>0<span class="pricing-period"></span></div>
-          <p>Free tool + your API costs</p>
-        </div>
-        <ul class="pricing-features">
-          <li><span class="pricing-check">&#10003;</span> Unlimited sessions</li>
-          <li><span class="pricing-check">&#10003;</span> 75+ LLM providers</li>
-          <li><span class="pricing-check">&#10003;</span> Local models via Ollama</li>
-          <li><span class="pricing-check">&#10003;</span> 10 parallel agents</li>
-          <li><span class="pricing-check">&#10003;</span> Desktop app included</li>
-          <li><span class="pricing-check">&#10003;</span> No vendor lock-in</li>
-          <li><span class="pricing-check">&#10003;</span> Privacy-first architecture</li>
-        </ul>
-        <div class="pricing-typical">
-          Typical monthly cost: <strong>$5–30</strong> (API usage)
-        </div>
-        <a href="https://opencode.ai" target="_blank" rel="noopener" class="btn-primary pricing-btn">Get OpenCode Free</a>
-      </div>
-
-      <div class="pricing-card pricing-cc">
-        <div class="pricing-header">
-          <h3>Claude Code</h3>
-          <div class="pricing-amount"><span class="pricing-currency">$</span>20<span class="pricing-period">/mo</span></div>
-          <p>Pro plan minimum</p>
-        </div>
-        <ul class="pricing-features">
-          <li><span class="pricing-check">&#10003;</span> Claude model access</li>
-          <li><span class="pricing-check">&#10003;</span> Extended thinking</li>
-          <li><span class="pricing-check">&#10003;</span> Auto-commit & PR creation</li>
-          <li><span class="pricing-check">&#10003;</span> Agent View dashboard</li>
-          <li><span class="pricing-cross">&#10007;</span> No model flexibility</li>
-          <li><span class="pricing-cross">&#10007;</span> No local models</li>
-          <li><span class="pricing-cross">&#10007;</span> Vendor lock-in</li>
-        </ul>
-        <div class="pricing-typical">
-          Or API: <strong>$5/M input + $25/M output</strong> tokens
-        </div>
-        <a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener" class="btn-secondary pricing-btn">Try Claude Code</a>
-      </div>
-    </div>
-
-    <div class="pricing-note reveal">
-      <strong>Pro tip:</strong> Use OpenCode with Claude API keys = same model, zero lock-in, lower cost. You get Claude's intelligence with OpenCode's flexibility.
-    </div>
-  </section>
-
-  <section class="section verdict" id="verdict">
-    <div class="section-label reveal">The Bottom Line</div>
-    <h2 class="section-title reveal">Which One Should You Choose?</h2>
-    <p class="section-desc reveal">No fluff. No bias. Here's the truth based on all the data.</p>
-
-    <div class="verdict-grid reveal">
-      <div class="verdict-card verdict-oc">
-        <div class="verdict-icon">
-          <svg width="48" height="48" viewBox="0 0 234 42" fill="none">
-            <path d="M18 30H6V18H18V30Z" fill="currentColor"/>
-            <path d="M18 12H6V30H18V12ZM24 36H0V6H24V36Z" fill="currentColor" opacity="0.6"/>
-            <path d="M48 30H36V18H48V30Z" fill="currentColor"/>
-            <path d="M36 30H48V12H36V30ZM54 36H36V42H30V6H54V36Z" fill="currentColor" opacity="0.6"/>
-            <path d="M84 24V30H66V24H84Z" fill="currentColor"/>
-            <path d="M84 24H66V30H84V36H60V6H84V24ZM66 18H78V12H66V18Z" fill="currentColor" opacity="0.6"/>
-            <path d="M108 36H96V18H108V36Z" fill="currentColor"/>
-            <path d="M108 12H96V36H90V6H108V12ZM114 36H108V12H114V36Z" fill="currentColor" opacity="0.6"/>
-            <path d="M144 30H126V18H144V30Z" fill="currentColor"/>
-            <path d="M144 12H126V30H144V36H120V6H144V12Z" fill="white" fill-opacity="0.9"/>
-            <path d="M168 30H156V18H168V30Z" fill="currentColor"/>
-            <path d="M168 12H156V30H168V12ZM174 36H150V6H174V36Z" fill="white" fill-opacity="0.9"/>
-            <path d="M198 30H186V18H198V30Z" fill="currentColor"/>
-            <path d="M198 12H186V30H198V12ZM204 36H180V6H198V0H204V36Z" fill="white" fill-opacity="0.9"/>
-            <path d="M234 24V30H216V24H234Z" fill="currentColor"/>
-            <path d="M216 12V18H228V12H216ZM234 24H216V30H234V36H210V6H234V24Z" fill="white" fill-opacity="0.9"/>
-          </svg>
-        </div>
-        <h3>Choose OpenCode if...</h3>
-        <ul>
-          <li>You want model flexibility (75+ providers)</li>
-          <li>You care about privacy & local models</li>
-          <li>You're budget-conscious or a startup</li>
-          <li>You value open-source philosophy</li>
-          <li>You want a desktop app</li>
-          <li>You use Vim/Neovim or terminal workflows</li>
-        </ul>
-        <div class="verdict-score">
-          <span class="verdict-score-num">92%</span>
-          <span class="verdict-score-label">User Satisfaction</span>
-        </div>
-      </div>
-
-      <div class="verdict-divider">
-        <span>OR</span>
-      </div>
-
-      <div class="verdict-card verdict-cc">
-        <div class="verdict-icon">
-          <svg width="48" height="48" viewBox="0 0 32 32" fill="none">
-            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2.5" fill="none"/>
-            <path d="M12 20c0 0 2 3 4 3s4-3 4-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
-            <circle cx="11" cy="13" r="1.5" fill="currentColor"/>
-            <circle cx="21" cy="13" r="1.5" fill="currentColor"/>
-          </svg>
-        </div>
-        <h3>Choose Claude Code if...</h3>
-        <ul>
-          <li>You want the most polished experience</li>
-          <li>You need deep codebase refactoring</li>
-          <li>You already have an Anthropic subscription</li>
-          <li>You value agentic autonomy (/goal)</li>
-          <li>You want a managed fleet (Agent View)</li>
-          <li>You're in an enterprise with Claude contracts</li>
-        </ul>
-        <div class="verdict-score">
-          <span class="verdict-score-num">88%</span>
-          <span class="verdict-score-label">Code Quality (blind reviews)</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="verdict-final reveal">
-      <div class="verdict-final-icon">&#9878;</div>
-      <h3>The Honest Answer</h3>
-      <p>Both tools are excellent. With the <strong>same Claude model</strong>, OpenCode matches Claude Code on quality — while giving you the freedom to use any other model when it suits you. Most power users run <strong>both</strong>: OpenCode for everyday work and flexibility, Claude Code when only the best Claude integration will do.</p>
-      <p class="verdict-final-tldr"><strong>TL;DR:</strong> Pick OpenCode for freedom and value. Pick Claude Code for polish and deep agentic workflows. You can't go wrong either way.</p>
-    </div>
-  </section>
+  </main>
 
   <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <svg width="24" height="24" viewBox="0 0 234 42" fill="none">
-          <path d="M18 30H6V18H18V30Z" fill="#6363f1"/>
-          <path d="M18 12H6V30H18V12ZM24 36H0V6H24V36Z" fill="#a78bfa"/>
-          <path d="M48 30H36V18H48V30Z" fill="#6363f1"/>
-          <path d="M36 30H48V12H36V30ZM54 36H36V42H30V6H54V36Z" fill="#a78bfa"/>
-          <path d="M84 24V30H66V24H84Z" fill="#6363f1"/>
-          <path d="M84 24H66V30H84V36H60V6H84V24ZM66 18H78V12H66V18Z" fill="#a78bfa"/>
-          <path d="M108 36H96V18H108V36Z" fill="#6363f1"/>
-          <path d="M108 12H96V36H90V6H108V12ZM114 36H108V12H114V36Z" fill="#a78bfa"/>
-          <path d="M144 30H126V18H144V30Z" fill="#6363f1"/>
-          <path d="M144 12H126V30H144V36H120V6H144V12Z" fill="white"/>
-          <path d="M168 30H156V18H168V30Z" fill="#6363f1"/>
-          <path d="M168 12H156V30H168V12ZM174 36H150V6H174V36Z" fill="white"/>
-          <path d="M198 30H186V18H198V30Z" fill="#6363f1"/>
-          <path d="M198 12H186V30H198V12ZM204 36H180V6H198V0H204V36Z" fill="white"/>
-          <path d="M234 24V30H216V24H234Z" fill="#6363f1"/>
-          <path d="M216 12V18H228V12H216ZM234 24H216V30H234V36H210V6H234V24Z" fill="white"/>
-        </svg>
-        <span>OpenCode vs Claude Code</span>
-      </div>
-      <p class="footer-desc">A data-driven comparison built from 20+ sources across X, Reddit, YouTube, tech publications, and official benchmarks. Data as of June 2026.</p>
-      <div class="footer-links">
-        <a href="https://opencode.ai" target="_blank" rel="noopener">OpenCode.ai</a>
-        <a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener">Claude Code</a>
-        <a href="https://github.com/ShishirDev420/opencode-vs-claude-code" target="_blank" rel="noopener">Source on GitHub</a>
-      </div>
-      <div class="footer-bottom">
-        <span>Built with data from Matthew Berman, XDA, ComputingForGeeks, ByteIota, Morphllm, Dr. Amit Ray, and Reddit communities.</span>
-        <span>&copy; 2026 ShishirDev420</span>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <svg width="20" height="20" viewBox="0 0 234 42" fill="none">
+            <path d="M18 30H6V18H18V30Z" fill="#6363f1"/><path d="M18 12H6V30H18V12ZM24 36H0V6H24V36Z" fill="#a78bfa"/>
+            <path d="M48 30H36V18H48V30Z" fill="#6363f1"/><path d="M36 30H48V12H36V30ZM54 36H36V42H30V6H54V36Z" fill="#a78bfa"/>
+            <path d="M84 24V30H66V24H84Z" fill="#6363f1"/><path d="M84 24H66V30H84V36H60V6H84V24ZM66 18H78V12H66V18Z" fill="#a78bfa"/>
+            <path d="M108 36H96V18H108V36Z" fill="#6363f1"/><path d="M108 12H96V36H90V6H108V12ZM114 36H108V12H114V36Z" fill="#a78bfa"/>
+            <path d="M144 30H126V18H144V30Z" fill="#6363f1"/><path d="M144 12H126V30H144V36H120V6H144V12Z" fill="white"/>
+            <path d="M168 30H156V18H168V30Z" fill="#6363f1"/><path d="M168 12H156V30H168V12ZM174 36H150V6H174V36Z" fill="white"/>
+            <path d="M198 30H186V18H198V30Z" fill="#6363f1"/><path d="M198 12H186V30H198V12ZM204 36H180V6H198V0H204V36Z" fill="white"/>
+            <path d="M234 24V30H216V24H234Z" fill="#6363f1"/><path d="M216 12V18H228V12H216ZM234 24H216V30H234V36H210V6H234V24Z" fill="white"/>
+          </svg>
+          <span>OpenCode vs Claude Code</span>
+        </div>
+        <p>Data-driven comparison from Matthew Berman, XDA, ComputingForGeeks, ByteIota, Morphllm, Dr. Amit Ray, and more. Data as of June 2026.</p>
+        <div class="footer-links">
+          <a href="https://opencode.ai" target="_blank" rel="noopener">OpenCode.ai</a>
+          <a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener">Claude Code</a>
+          <a href="https://github.com/ShishirDev420/opencode-vs-claude-code" target="_blank" rel="noopener">GitHub Repo</a>
+        </div>
+        <div class="footer-copy">&copy; 2026 ShishirDev420</div>
       </div>
     </div>
   </footer>
 
+  <div class="noise"></div>
+
+  <script src="https://unpkg.com/lenis@1.1.16/dist/lenis.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
